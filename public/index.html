@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Food Decider</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <h1>Food Decider</h1>
+      <p>Pick cuisines, spin, and decide what to eat.</p>
+
+      <section class="card">
+        <h2>1) Choose food types</h2>
+        <div id="foodFilters" class="filters"></div>
+      </section>
+
+      <section class="card">
+        <h2>2) Choose chance mode</h2>
+        <div class="modes">
+          <label><input type="radio" name="mode" value="wheel" checked /> Wheel</label>
+          <label><input type="radio" name="mode" value="dice" /> Dice</label>
+          <label><input type="radio" name="mode" value="darts" /> Darts</label>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>3) Spin</h2>
+        <button id="spinBtn">Spin</button>
+        <div id="spinner" class="spinner">🎯</div>
+        <p id="resultText">No result yet.</p>
+
+        <div id="postSpin" class="hidden">
+          <button id="respinBtn">Re-spin</button>
+          <button id="nearbyBtn">Find nearby restaurants</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Nearby restaurants</h2>
+        <label>
+          Mile radius
+          <input id="radiusInput" type="number" min="1" max="50" value="5" />
+        </label>
+        <ul id="nearbyList"></ul>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>

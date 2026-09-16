@@ -86,10 +86,10 @@ function findNearby() {
     return;
   }
 
-  nearbyList.innerHTML = "<li>Checking your location...</li>";
+  setNearbyMessage("Checking your location...");
 
   if (!navigator.geolocation) {
-    nearbyList.innerHTML = "<li>Geolocation is not supported in this browser.</li>";
+    setNearbyMessage("Geolocation is not supported in this browser.");
     return;
   }
 
@@ -108,28 +108,43 @@ function findNearby() {
         const data = await response.json();
 
         if (!response.ok) {
-          nearbyList.innerHTML = `<li>${data.error || "Unable to fetch places."}</li>`;
+          setNearbyMessage(data.error || "Unable to fetch places.");
           return;
         }
 
         if (!data.results || !data.results.length) {
-          nearbyList.innerHTML = `<li>No ${selectedCuisine} spots found nearby.</li>`;
+          setNearbyMessage(`No ${selectedCuisine} spots found nearby.`);
           return;
         }
 
-        nearbyList.innerHTML = data.results
-          .map(
-            (place) =>
-              `<li><strong>${place.name}</strong> — ${place.address || "No address"} (⭐ ${place.rating})</li>`
-          )
-          .join("");
+        nearbyList.textContent = "";
+        data.results.forEach((place) => {
+          const item = document.createElement("li");
+          const name = document.createElement("strong");
+          name.textContent = place.name;
+
+          item.appendChild(name);
+          item.append(
+            ` — ${place.address || "No address"} (⭐ ${place.rating || "N/A"})`
+          );
+
+          nearbyList.appendChild(item);
+        });
       } catch (error) {
-        nearbyList.innerHTML = "<li>Something went wrong while finding places.</li>";
+        setNearbyMessage("Something went wrong while finding places.");
       }
     },
     () => {
-      nearbyList.innerHTML =
-        "<li>Location access denied. Enable location to search nearby restaurants.</li>";
+      setNearbyMessage(
+        "Location access denied. Enable location to search nearby restaurants."
+      );
     }
   );
+}
+
+function setNearbyMessage(message) {
+  nearbyList.textContent = "";
+  const item = document.createElement("li");
+  item.textContent = message;
+  nearbyList.appendChild(item);
 }
